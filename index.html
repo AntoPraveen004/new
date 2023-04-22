@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Results</title>
+  <style>
+    /* Basic styles for the search form */
+    form {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    button[type="submit"] {
+      padding: 5px 10px;
+      font-size: 16px;
+    }
+
+    /* Styles for the search results table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Search Results</h1>
+  <form id="searchForm">
+    <input type="text" id="searchInput" placeholder="Enter your search query">
+    <button type="submit">Search</button>
+  </form>
+  <table id="resultsTable">
+    <thead>
+      <tr>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody id="resultsBody">
+    </tbody>
+  </table>
+
+  <script>
+    // JavaScript to handle form submission and display search results
+    const searchForm = document.getElementById('searchForm');
+    const searchInput = document.getElementById('searchInput');
+    const resultsBody = document.getElementById('resultsBody');
+
+    searchForm.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent form submission
+
+      const searchQuery = searchInput.value.trim(); // Get search query from input
+
+      // Clear previous search results
+      resultsBody.innerHTML = '';
+
+      // Perform search based on search query (e.g., fetch data from an API)
+      // Replace the code below with your own logic to fetch search results
+      // and update the table accordingly
+      fetch(`https://api.example.com/search?q=${searchQuery}`)
+        .then(response => response.json())
+        .then(results => {
+          if (results.length > 0) {
+            // If results found, iterate through results and add rows to table
+            results.forEach(result => {
+              const row = document.createElement('tr');
+              const cell = document.createElement('td');
+              cell.textContent = result;
+              row.appendChild(cell);
+              resultsBody.appendChild(row);
+            });
+          } else {
+            // If no results found, display a message
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.textContent = 'No results found.';
+            row.appendChild(cell);
+            resultsBody.appendChild(row);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          // Display error message if fetch fails
+          const row = document.createElement('tr');
+          const cell = document.createElement('td');
+          cell.textContent = 'An error occurred.';
+          row.appendChild(cell);
+          resultsBody.appendChild(row);
+        });
+    });
+  </script>
+</body>
+</html>
